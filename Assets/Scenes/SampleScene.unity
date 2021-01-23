@@ -2687,7 +2687,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 30
-  jumpforce: 5
+  jumpforce: 7
   healthCount: 100
   coinCount: 0
   rb: {fileID: 1127036335}

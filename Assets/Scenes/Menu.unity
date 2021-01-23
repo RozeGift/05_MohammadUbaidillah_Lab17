@@ -395,6 +395,7 @@ GameObject:
   - component: {fileID: 797450619}
   - component: {fileID: 797450618}
   - component: {fileID: 797450617}
+  - component: {fileID: 797450620}
   m_Layer: 5
   m_Name: Play
   m_TagString: Untagged
@@ -465,8 +466,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: 24eb74458628ab941af67d77b33f78da, type: 3}
-        m_MethodName: 
+      - m_Target: {fileID: 797450620}
+        m_MethodName: PlayGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -513,6 +514,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 797450615}
   m_CullTransparentMesh: 0
+--- !u!114 &797450620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 797450615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24eb74458628ab941af67d77b33f78da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &896796145
 GameObject:
   m_ObjectHideFlags: 0

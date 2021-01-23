@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class CharacterController : MonoBehaviour
 {
@@ -33,6 +34,36 @@ public class CharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Movement();
+        if(coinCount == 4)
+        {
+            SceneManager.LoadScene("WinScene");
+        }
+        if(healthCount == 0)
+        {
+            SceneManager.LoadScene("LoseScene");
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "Mace")
+        {
+            audioSource.PlayOneShot(AudioClipArr[1]);
+            healthCount -= 10;
+        }
+        if (collision.gameObject.tag == "Coin")
+        {
+            audioSource.PlayOneShot(AudioClipArr[3]);
+            Destroy(collision.gameObject);
+            coinCount++;
+        }
+        if(collision.gameObject.tag == "Ground")
+        {
+            isonground = true;
+        }
+    }
+    void Movement()
+    {
         float hVelocity = 0;
         float vVelocity = 0;
         healthtxt.GetComponent<Text>().text = "Health: " + healthCount;
@@ -58,43 +89,25 @@ public class CharacterController : MonoBehaviour
             iswalking = false;
         }
         if (Input.GetKeyDown(KeyCode.Space) && isonground == true)
-        {      
+        {
             vVelocity = jumpforce;
             animator.SetTrigger("JumpTrigger");
             audioSource.PlayOneShot(AudioClipArr[2]);
             isonground = false;
         }
 
-        if(iswalking == true && isonground == true)
+        if (iswalking == true && isonground == true)
 
         {
             audioSource.clip = AudioClipArr[0];
 
-            if(!audioSource.isPlaying)
+            if (!audioSource.isPlaying)
             {
                 audioSource.Play();
             }
-        }     
+        }
         hVelocity = Mathf.Clamp(rb.velocity.x + hVelocity, -5, 5);
 
         rb.velocity = new Vector2(hVelocity, rb.velocity.y + vVelocity);
-    }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.tag == "Mace")
-        {
-            audioSource.PlayOneShot(AudioClipArr[1]);
-            healthCount -= 10;
-        }
-        if (collision.gameObject.tag == "Coin")
-        {
-            audioSource.PlayOneShot(AudioClipArr[3]);
-            Destroy(collision.gameObject);
-            coinCount++;
-        }
-        if(collision.gameObject.tag == "Ground")
-        {
-            isonground = true;
-        }
     }
 }
