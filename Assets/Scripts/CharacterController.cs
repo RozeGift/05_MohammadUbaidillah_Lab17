@@ -8,6 +8,9 @@ public class CharacterController : MonoBehaviour
     public float moveSpeed;
     public float jumpforce;
 
+    bool iswalking = false;
+    bool isonground = true;
+
     public int healthCount;
     public int coinCount;
 
@@ -39,27 +42,39 @@ public class CharacterController : MonoBehaviour
             hVelocity = -moveSpeed;
             transform.localScale = new Vector3(-1, 1, 1);
             animator.SetFloat("xVelocity", Mathf.Abs(hVelocity));
-            
+            iswalking = true;
         }
         else if (Input.GetKey(KeyCode.RightArrow))
         {
             hVelocity = moveSpeed;
             transform.localScale = new Vector3(1, 1, 1);
             animator.SetFloat("xVelocity", Mathf.Abs(hVelocity));
-        
+            iswalking = true;
 
         }
         else
         {
             animator.SetFloat("xVelocity", 0);
+            iswalking = false;
         }
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && isonground == true)
         {      
             vVelocity = jumpforce;
             animator.SetTrigger("JumpTrigger");
-            audioSource.PlayOneShot(AudioClipArr[0]);
+            audioSource.PlayOneShot(AudioClipArr[2]);
+            isonground = false;
         }
-     
+
+        if(iswalking == true && isonground == true)
+
+        {
+            audioSource.clip = AudioClipArr[0];
+
+            if(!audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
+        }     
         hVelocity = Mathf.Clamp(rb.velocity.x + hVelocity, -5, 5);
 
         rb.velocity = new Vector2(hVelocity, rb.velocity.y + vVelocity);
@@ -68,12 +83,18 @@ public class CharacterController : MonoBehaviour
     {
         if(collision.gameObject.tag == "Mace")
         {
+            audioSource.PlayOneShot(AudioClipArr[1]);
             healthCount -= 10;
         }
         if (collision.gameObject.tag == "Coin")
         {
+            audioSource.PlayOneShot(AudioClipArr[3]);
             Destroy(collision.gameObject);
             coinCount++;
+        }
+        if(collision.gameObject.tag == "Ground")
+        {
+            isonground = true;
         }
     }
 }
