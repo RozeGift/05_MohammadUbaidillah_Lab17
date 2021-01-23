@@ -17,10 +17,12 @@ public class CharacterController : MonoBehaviour
     public GameObject healthtxt;
     public GameObject scoretxt;
 
-    public AudioSource audioSource;
+    public AudioClip[] AudioClipArr;
+    private AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         healthtxt.GetComponent<Text>().text = "Health: " + healthCount;
     }
@@ -52,10 +54,12 @@ public class CharacterController : MonoBehaviour
             animator.SetFloat("xVelocity", 0);
         }
         if (Input.GetKeyDown(KeyCode.Space))
-        {
+        {      
             vVelocity = jumpforce;
             animator.SetTrigger("JumpTrigger");
+            audioSource.PlayOneShot(AudioClipArr[0]);
         }
+     
         hVelocity = Mathf.Clamp(rb.velocity.x + hVelocity, -5, 5);
 
         rb.velocity = new Vector2(hVelocity, rb.velocity.y + vVelocity);
